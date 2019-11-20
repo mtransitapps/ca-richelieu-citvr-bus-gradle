@@ -1,0 +1,69 @@
+# ORIGINAL FILE: https://github.com/mtransitapps/commons/tree/master/shared-overwrite
+version: 2
+jobs:
+  build:
+    working_directory: ~/mtransit
+    docker:
+      - image: circleci/android:api-29
+    environment:
+      JAVA_TOOL_OPTIONS: -Xmx3200m
+      JVM_OPTS: -Xmx3200m
+      JAVA_OPTS: -Xmx3200m
+      GRADLE_OPTS: -Xmx3200m
+      TERM: xterm-256color
+    steps:
+      - run:
+          name: Update SDK
+          command: echo y | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;29.0.2" "platform-tools" "platforms;android-29"
+      - checkout
+      - run:
+          name: checkout_submodules.sh permissions
+          command: sudo chmod +x checkout_submodules.sh
+      - run:
+          name: Checkout submodules
+          command: ./checkout_submodules.sh
+      - run:
+          name: commons/sync.sh permissions
+          command: sudo chmod +x commons/sync.sh
+      - run:
+          name: Sync files
+          command: ./commons/sync.sh
+      - restore_cache:
+          key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - run:
+          name: Generate gradle cache key
+          command: ./init_cache_key.sh
+      - restore_cache:
+          keys:
+            - gradle-cache-{{ checksum "gradle_cache_key_checksum.txt" }}
+            - gradle-cache- # fallback to using the latest cache if no exact match is found
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies --no-daemon --no-parallel --no-configure-on-demand --max-workers=2 --console=plain
+      - run:
+          name: Build
+          command: ./build.sh
+      - save_cache:
+          paths:
+            - ~/.gradle/caches/
+          key: gradle-cache-{{ checksum "gradle_cache_key_checksum.txt" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper/
+          key: gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - store_artifacts:
+          path: app-android/build/reports
+          destination: reports
+      - store_artifacts:
+          path: app-android/build/outputs/apk
+          destination: apks
+      - store_artifacts:
+          path: app-android/build/outputs/bundle
+          destination: bundles
+      - store_artifacts:
+          path: commons-android/build/reports
+          destination: commons-android-reports
+      - store_test_results:
+          path: app-android/build/test-results
+      - store_test_results:
+          path: commons-android/build/test-results

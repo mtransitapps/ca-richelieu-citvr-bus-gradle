@@ -1,0 +1,15 @@
+[submodule "commons"]
+	path = commons
+	url = git://github.com/mtransitapps/commons.git
+[submodule "commons-android"]
+	path = commons-android
+	url = git://github.com/mtransitapps/commons-android.git
+[submodule "app-android"]
+	path = app-android
+	url = git://github.com/mtransitapps/ca-richelieu-citvr-bus-android.git
+[submodule "parser"]
+	path = parser
+	url = git://github.com/mtransitapps/parser.git
+[submodule "agency-parser"]
+	path = agency-parser
+	url = git://github.com/mtransitapps/ca-richelieu-citvr-bus-parser.git
