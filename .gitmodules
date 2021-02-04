@@ -13,3 +13,6 @@
 [submodule "agency-parser"]
 	path = agency-parser
 	url = git://github.com/mtransitapps/ca-richelieu-citvr-bus-parser.git
+[submodule "commons-java"]
+	path = commons-java
+	url = git://github.com/mtransitapps/commons-java.git
