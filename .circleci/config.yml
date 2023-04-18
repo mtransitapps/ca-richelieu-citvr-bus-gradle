@@ -16,7 +16,7 @@ jobs:
       # https://circleci.com/developer/images/image/cimg/android
       # https://github.com/CircleCI-Public/cimg-android
       # https://hub.docker.com/r/cimg/android/tags
-      - image: cimg/android:2022.12.1
+      - image: cimg/android:2023.04.1
         auth:
           username: montransit
           password: $MT_DOCKER_PASSWORD
@@ -24,8 +24,8 @@ jobs:
     environment: # https://circleci.com/docs/2.0/java-oom/ (-XX:MaxRAMPercentage=90.0 )
       JAVA_TOOL_OPTIONS: -Xmx3333m
       JVM_OPTS: -Xmx3333m
-      JAVA_OPTS: -Xmx3333m -Dorg.gradle.jvmargs="-Xms1g -Xmx3333m -XX:MaxPermSize=3333m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
-      GRADLE_OPTS: -Xmx3333m -Dorg.gradle.jvmargs="-Xms1g -Xmx3333m -XX:MaxPermSize=3333m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+      JAVA_OPTS: -Xmx3333m -Dorg.gradle.jvmargs="-Xms1g -Xmx3333m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
+      GRADLE_OPTS: -Xmx3333m -Dorg.gradle.jvmargs="-Xms1g -Xmx3333m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
       TERM: xterm-256color
       TZ: "America/Toronto"
     steps:
